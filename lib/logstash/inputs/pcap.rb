@@ -24,11 +24,7 @@ class LogStash::Inputs::Pcap < LogStash::Inputs::Base
   def run(queue)
     @client.each do |packet|
       payload = { :timestamp => packet.timestamp }
-
-      ipv4 = packet.ipv4
-      payload['src_addr'] = ipv4.src_addr
-      payload['src_host'] = ipv4.src_host
-
+      payload.merge!(packet.to_hash)
       event = LogStash::Event.new(payload)
       decorate(event)
       queue << event

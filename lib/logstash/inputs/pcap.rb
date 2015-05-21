@@ -18,7 +18,7 @@ class LogStash::Inputs::Pcap < LogStash::Inputs::Base
   public
   def register
     require "pcap"
-    @client = Jruby::Pcap(@interface)
+    @client = Jruby::Pcap.live(@interface)
   end # def register
 
   def run(queue)
